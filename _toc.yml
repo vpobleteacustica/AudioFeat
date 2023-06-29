@@ -1,0 +1,21 @@
+
+format: jb-book
+root: README
+parts:
+  - caption: Procesamiento básico de datos de audio
+    numbered: true
+    chapters:
+    - file: contenidos/unidad1/clase1
+    - file: contenidos/unidad1/clase2
+    - file: contenidos/unidad1/clase3
+    - file: contenidos/unidad1/clase4
+    - file: contenidos/unidad1/clase5
+  - caption: Revisión de features perceptuales y físicos para audio
+    numbered: true
+    chapters:
+    - file: contenidos/unidad2/clase01
+    - file: contenidos/unidad2/clase02
+    - file: contenidos/unidad2/clase03
+    - file: contenidos/unidad2/clase04
+    - file: contenidos/unidad2/clase05
+

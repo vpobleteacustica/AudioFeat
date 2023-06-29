@@ -1,0 +1,761 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="es" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>2. La transformada continua de Fourier (FT) &#8212; Procesamiento de Audio</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'contenidos/unidad1/clase2';</script>
+    <link rel="index" title="Índice" href="../../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../../search.html" />
+    <link rel="next" title="3. Representamos un sistema lineal e invariante en tiempo discreto (LTI)" href="clase3.html" />
+    <link rel="prev" title="1. Procesamiento básico de imágenes y audio" href="clase1.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../README.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../README.html">
+                    Extracción de features en señales audio
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Procesamiento básico de datos de audio</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="clase1.html">1. Procesamiento básico de imágenes y audio</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. La transformada continua de Fourier (FT)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clase3.html">3. Representamos un sistema lineal e invariante en tiempo discreto (LTI)</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="clase4.html">5. Operación de Convolución de audio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clase5.html">6. Procesamiento básico de imágenes</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Revisión de features perceptuales y físicos para audio</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unidad2/clase01.html">7. ¿Qué entendemos por features auditivos?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unidad2/clase02.html">8. Múltiples eventos sónicos presentes simultáneamente</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unidad2/clase03.html">9. ¿Sistema auditivo humano: pasivo o activo?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unidad2/clase04.html">10. Entender la resolución de frecuencia en el sistema auditivo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unidad2/clase05.html">11. La transformada de Fourier en tiempo corto</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/contenidos/unidad1/clase2.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="claro/oscuro" aria-label="claro/oscuro" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>La transformada continua de Fourier (FT)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-transformada-de-fourier-en-tiempo-discreto-dtft">2.1. La transformada de Fourier en tiempo discreto (DTFT)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-transformada-de-fourier-discreta-dft">2.2. La transformada de Fourier discreta (DFT)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-trasformada-rapida-de-fourier-fft">2.3. La trasformada rápida de Fourier (FFT)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#supongamos-una-senal-antes-de-pasar-por-un-convertidor-de-analogo-a-digital">2.4. Supongamos una señal antes de pasar por un convertidor de análogo a digital:</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">from</span> <span class="nn">scipy.fftpack</span> <span class="kn">import</span> <span class="n">fft</span><span class="p">,</span> <span class="n">fftshift</span><span class="p">,</span> <span class="n">ifft</span>
+<span class="kn">from</span> <span class="nn">scipy.fftpack</span> <span class="kn">import</span> <span class="n">fftfreq</span>
+<span class="kn">import</span> <span class="nn">scipy.io.wavfile</span> <span class="k">as</span> <span class="nn">wavfile</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">signal</span>
+<span class="kn">import</span> <span class="nn">librosa</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">IPython.display</span> <span class="k">as</span> <span class="nn">ipd</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Audio</span>
+<span class="kn">from</span> <span class="nn">IPython</span> <span class="kn">import</span> <span class="n">display</span>
+<span class="kn">from</span> <span class="nn">matplotlib.ticker</span> <span class="kn">import</span> <span class="n">ScalarFormatter</span>
+<span class="kn">from</span> <span class="nn">matplotlib.ticker</span> <span class="kn">import</span> <span class="n">EngFormatter</span>
+
+<span class="kn">import</span> <span class="nn">soundfile</span> <span class="k">as</span> <span class="nn">sf</span>           
+<span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">welch</span>   
+<span class="kn">from</span> <span class="nn">scipy.io</span> <span class="kn">import</span> <span class="n">wavfile</span>
+<span class="kn">import</span> <span class="nn">scipy.signal</span> <span class="k">as</span> <span class="nn">sps</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torchaudio</span>
+<span class="kn">import</span> <span class="nn">torchaudio.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">import</span> <span class="nn">torchaudio.transforms</span> <span class="k">as</span> <span class="nn">T</span>
+<span class="kn">from</span> <span class="nn">sampling</span> <span class="kn">import</span> <span class="n">module_functions</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Audio</span>
+<span class="kn">from</span> <span class="nn">IPython</span> <span class="kn">import</span> <span class="n">display</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torchvision</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">import</span> <span class="nn">torchvision.transforms</span> <span class="k">as</span> <span class="nn">transforms</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">Fu</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="la-transformada-continua-de-fourier-ft">
+<h1><span class="section-number">2. </span>La transformada continua de Fourier (FT)<a class="headerlink" href="#la-transformada-continua-de-fourier-ft" title="Permalink to this heading">#</a></h1>
+<blockquote>
+<div><ul class="simple">
+<li><p>En una dimensión como es el caso de señales de audio, el <span style="color:red"><strong>par de transformadas de Fourier</strong></span> que consiste en la <code class="docutils literal notranslate"><span class="pre">transformada</span> <span class="pre">directa</span></code> y la <code class="docutils literal notranslate"><span class="pre">transformada</span> <span class="pre">inversa</span></code>, se definen como:</p></li>
+</ul>
+</div></blockquote>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+X(\omega) = &amp; \int_{-\infty}^{\infty} x(t)\cdot e^{-j\omega t} dt\quad \quad\quad{\text{(transformada directa)}}\\
+x(t)      = &amp; \,\frac{1}{2\pi}\int_{-\infty}^{\infty} X(\omega)\cdot e^{j\omega t} d\omega \quad \,{\text{(transformada inversa)}}
+\end{align*}
+\end{split}\]</div>
+<blockquote>
+<div><ul class="simple">
+<li><p>donde <span class="math notranslate nohighlight">\(j=\sqrt{-1}\)</span>, y la exponencial compleja: <span class="math notranslate nohighlight">\(e^{j\omega t}= \cos\omega t + j\sin\omega t\)</span>.</p></li>
+</ul>
+</div></blockquote>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(x(t)\overset{\mathscr{F}}{\longleftrightarrow} X(\omega)\)</span></p></li>
+</ul>
+</div></blockquote>
+<blockquote>
+<div><ul class="simple">
+<li><p>O bien, como <span class="math notranslate nohighlight">\(\mathscr{F}\left\lbrace x(t) \right\rbrace = X(\omega)\)</span> <span class="math notranslate nohighlight">\(\,\,\)</span> y <span class="math notranslate nohighlight">\(\,\,\)</span>  <span class="math notranslate nohighlight">\(\mathscr{F^{-1}}\left\lbrace X(\omega) \right\rbrace = x(t)\)</span></p></li>
+</ul>
+</div></blockquote>
+<blockquote>
+<div><ul class="simple">
+<li><p>Tanto <span class="math notranslate nohighlight">\(x(t)\)</span> como <span class="math notranslate nohighlight">\(X(\omega)\)</span> son, en general, funciones de valor complejo.</p></li>
+</ul>
+</div></blockquote>
+<section id="la-transformada-de-fourier-en-tiempo-discreto-dtft">
+<h2><span class="section-number">2.1. </span>La transformada de Fourier en tiempo discreto (DTFT)<a class="headerlink" href="#la-transformada-de-fourier-en-tiempo-discreto-dtft" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_SAMPLE_DIR_IMG</span>  <span class="o">=</span> <span class="s2">&quot;image_data&quot;</span>
+<span class="n">img_path2</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_SAMPLE_DIR_IMG</span><span class="p">,</span> <span class="s2">&quot;monodft.png&quot;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">_SAMPLE_DIR_IMG</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">display</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">img_path2</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="s2">&quot;700&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/e638962ad6820336e14281ec4e43b227aefcb0e7e0f4d1cb75155d8697f06f8d.png" src="../../_images/e638962ad6820336e14281ec4e43b227aefcb0e7e0f4d1cb75155d8697f06f8d.png" />
+</div>
+</div>
+</section>
+<section id="la-transformada-de-fourier-discreta-dft">
+<h2><span class="section-number">2.2. </span>La transformada de Fourier discreta (DFT)<a class="headerlink" href="#la-transformada-de-fourier-discreta-dft" title="Permalink to this heading">#</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>Pero, si trabajamos sobre un computador, usamos la <span style="color:red"><strong>Transformada de Fourier Discreta</strong></span>.</p></li>
+</ul>
+</div></blockquote>
+<blockquote>
+<div><ul class="simple">
+<li><p>Las ecuaciones para la DFT son muy similares a las de la transformada continua de Fourier.</p></li>
+</ul>
+</div></blockquote>
+<blockquote>
+<div><ul class="simple">
+<li><p>En este caso, la DFT trabaja con señales de <span style="color:red"><strong>duración finita</strong></span>, de duración <span class="math notranslate nohighlight">\(N\)</span>.</p></li>
+</ul>
+</div></blockquote>
+<blockquote>
+<div><ul class="simple">
+<li><p>Análogamente, la <span style="color:red"><strong>transformada discreta directa</strong></span> y la <span style="color:red"><strong><strong>transformada discreta inversa</strong></strong></span>, se definen como:</p></li>
+</ul>
+</div></blockquote>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+X[k] = &amp; \sum_{n=0}^{N-1} x[n] \cdot W_N^{kn} \quad \quad\quad{\text{(transformada discreta directa)}}\\
+x[n]      = &amp; \,\frac{1}{N}\sum_{n=0}^{N-1} X[k]\cdot W_N^{-kn} \quad \,{\text{(transformada discreta inversa)}}
+\end{align*}
+\end{split}\]</div>
+<blockquote>
+<div><ul class="simple">
+<li><p>donde <span class="math notranslate nohighlight">\(x[n]\)</span> es la señal de audio en tiempo discreto, de duración <span class="math notranslate nohighlight">\(N\)</span> muestras, <span class="math notranslate nohighlight">\(X[k]\)</span> es el <span style="color:red"><strong>espectro discreto de la señal</strong></span> (con un número discreto de frecuencias), y <span class="math notranslate nohighlight">\(W_N=e^{-j\frac{2\pi}{N}}\)</span>.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="la-trasformada-rapida-de-fourier-fft">
+<h2><span class="section-number">2.3. </span>La trasformada rápida de Fourier (FFT)<a class="headerlink" href="#la-trasformada-rapida-de-fourier-fft" title="Permalink to this heading">#</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>La FFT es un algoritmo eficiente para calcular la DFT de una señal discreta.</p></li>
+</ul>
+</div></blockquote>
+<blockquote>
+<div><ul class="simple">
+<li><p>Fue publicado por primera vez por <strong>Cooley</strong> (IBM) y <strong>Tukey</strong> (Princeton University) en 1965.</p></li>
+</ul>
+</div></blockquote>
+<blockquote>
+<div><ul class="simple">
+<li><p>Sin embargo, la idea original se remonta a un artículo inédito de Gauss en 1805 [<a class="reference external" href="https://nonagon.org/ExLibris/gauss-fast-fourier-transform">https://nonagon.org/ExLibris/gauss-fast-fourier-transform</a>].</p></li>
+</ul>
+</div></blockquote>
+<blockquote>
+<div><ul class="simple">
+<li><p>La FFT es considerada como uno de los algoritmos más importantes en computación científica.</p></li>
+</ul>
+</div></blockquote>
+<blockquote>
+<div><ul class="simple">
+<li><p>El algoritmo de la FFT va dividiendo recursivamente la DFT, en DFTs más pequeños para acelerar el cálculo.</p></li>
+</ul>
+</div></blockquote>
+<blockquote>
+<div><ul class="simple">
+<li><p>Como resultado el tiempo de cómputo se reduce asombrosamente, ya que la cantidad de operaciones de la DFT original que es de un orden <span class="math notranslate nohighlight">\(N^{2}\)</span>, disminuye a un orden de (<span class="math notranslate nohighlight">\(N\cdot {\text{log}}_2{N}\)</span>) operaciones, donde <span class="math notranslate nohighlight">\(N\)</span> es el número total de datos.</p></li>
+</ul>
+</div></blockquote>
+<blockquote>
+<div><ul class="simple">
+<li><p>La FFT es más eficiente si su <strong>largo N</strong> (se dice que <span class="math notranslate nohighlight">\(N\)</span> es el largo de la FFT) es una potencia de dos: <span class="math notranslate nohighlight">\(N = 2^{L} \,\, {\text{elementos}}.\)</span></p></li>
+</ul>
+</div></blockquote>
+<blockquote>
+<div><ul class="simple">
+<li><p>La FFT la podemos aplicar al largo entero de la señal en el tiempo discreto, por lo que el largo de la FFT sería igual al largo de la señal.</p></li>
+</ul>
+</div></blockquote>
+<blockquote>
+<div><ul class="simple">
+<li><p>Sin embargo, ya que la FFT es más eficiente cuando su largo es una potencia de 2, se aplica una técnica muy clásica llamada <strong>zero padding</strong> que agrega ceros hasta que la señal llega a ser de un largo que es potencia de 2.</p></li>
+</ul>
+</div></blockquote>
+<blockquote>
+<div><ul class="simple">
+<li><p>Por ejemplo, supongamos que <span class="math notranslate nohighlight">\(x[n]\)</span> tiene largo 3: <span class="math notranslate nohighlight">\(x = [3.4, 2.56, 1.3]\)</span>, de tal manera que cambiamos <span class="math notranslate nohighlight">\(x[n]\)</span> para que sea: <span class="math notranslate nohighlight">\(x = [3.4, 2.56, 1.3, 0.0]\)</span>, y aplicamos una FFT de largo 4.</p></li>
+</ul>
+</div></blockquote>
+<blockquote>
+<div><ul class="simple">
+<li><p>Un gran PERO… es que si nuestra señal es muy larga, se vuelve extremadamente ineficaz hacer todo a la vez. No es práctico intentar hacer una FFT a un archivo de audio de la larga longitud. En ese caso, dividimos la señal en ventanas de un tamaño razonable, y realizamos una FFT en cada una de esas ventanas y promediamos los resultados.</p></li>
+</ul>
+</div></blockquote>
+<blockquote>
+<div><ul class="simple">
+<li><p>La DFT nos proporciona información sobre un número <span style="color:red"><strong>discreto de frecuencias</strong></span>, por lo que debemos determinar qué frecuencias son éstas.</p></li>
+</ul>
+</div></blockquote>
+<blockquote>
+<div><ul class="simple">
+<li><p>Para esto, muestreamos una señal continua <span class="math notranslate nohighlight">\(x(t)\)</span> a intervalos equidistantes espaciados <span class="math notranslate nohighlight">\(T\)</span>, generando una secuencia de valores muestreados.</p></li>
+</ul>
+</div></blockquote>
+<blockquote>
+<div><ul class="simple">
+<li><p>El recíproco de este espaciamiento <span class="math notranslate nohighlight">\(T\)</span>, nos da la <strong>tasa de muestreo</strong>, o también llamada <strong>frecuencia de muestreo:</strong></p></li>
+</ul>
+</div></blockquote>
+<div class="math notranslate nohighlight">
+\[
+\begin{align*}
+f_s &amp;= \frac{1}{T}\quad \quad\quad{\text{(frecuencia de muestreo)}}
+\end{align*}
+\]</div>
+<blockquote>
+<div><ul class="simple">
+<li><p>Para cualquier intervalo de muestreo <span class="math notranslate nohighlight">\(T\)</span>, existe la frecuencia <span class="math notranslate nohighlight">\(f_{max} \)</span> llamada <span style="color:red"><strong>frecuencia máxima de Nyquist</strong></span>:</p></li>
+</ul>
+</div></blockquote>
+<div class="math notranslate nohighlight">
+\[
+\begin{align*}
+f_{max} &amp;= \frac{f_s}{2}\quad \quad\quad{\text{(frecuencia de Nyquist)}}
+\end{align*}
+\]</div>
+<blockquote>
+<div><ul class="simple">
+<li><p>La frecuencia máxima de Nyquist es la frecuencia más alta que puede ser representada por el proceso de muestreo a intervalos de <span class="math notranslate nohighlight">\(T\)</span>.</p></li>
+</ul>
+</div></blockquote>
+<blockquote>
+<div><ul class="simple">
+<li><p>Debemos muestrear la señal <span class="math notranslate nohighlight">\(x(t)\)</span> al menos 2 veces la frecuencia más alta contenida en la señal.</p></li>
+</ul>
+</div></blockquote>
+<blockquote>
+<div><ul class="simple">
+<li><p>Si, por ejemplo, <span class="math notranslate nohighlight">\(f_s\)</span> es <span class="math notranslate nohighlight">\(1000\)</span> Hz, la frecuencia máxima de Nyquist es 500 Hz.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="supongamos-una-senal-antes-de-pasar-por-un-convertidor-de-analogo-a-digital">
+<h2><span class="section-number">2.4. </span>Supongamos una señal antes de pasar por un convertidor de análogo a digital:<a class="headerlink" href="#supongamos-una-senal-antes-de-pasar-por-un-convertidor-de-analogo-a-digital" title="Permalink to this heading">#</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>La notación: tenemos la señal <span class="math notranslate nohighlight">\(\large x(t)\)</span></p></li>
+</ul>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filename</span>       <span class="o">=</span> <span class="s2">&quot;sandy-beach_.wav&quot;</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">sample_rate</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">32000</span><span class="p">)</span> 
+
+<span class="n">N</span>              <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">secs</span>           <span class="o">=</span> <span class="n">N</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">sample_rate</span><span class="p">)</span>  
+<span class="n">T</span>              <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">sample_rate</span>
+<span class="n">time_vector</span>    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">secs</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+
+<span class="n">X</span>              <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="n">X_side</span>         <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="o">//</span><span class="mi">2</span><span class="p">)]</span>
+
+<span class="n">freqs</span>          <span class="o">=</span> <span class="n">fftfreq</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">time_vector</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">time_vector</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">fft_freqs</span>      <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">freqs</span><span class="p">)</span>
+<span class="n">freqs_side</span>     <span class="o">=</span> <span class="n">freqs</span><span class="p">[</span><span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="o">//</span><span class="mi">2</span><span class="p">)]</span>
+<span class="n">fft_freqs_side</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">freqs_side</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">module_functions</span><span class="o">.</span><span class="n">plot_fft_custom</span><span class="p">(</span><span class="n">time_vector</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">sample_rate</span><span class="p">,</span> <span class="n">freqs</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/108ca991be6f119ce8edbec6bde6f934c4f76c974342da8289a4a2e93bc11b73.png" src="../../_images/108ca991be6f119ce8edbec6bde6f934c4f76c974342da8289a4a2e93bc11b73.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span> 
+<span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">.5</span><span class="p">)</span>
+
+<span class="n">n</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">secs</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+<span class="n">on</span>  <span class="o">=</span> <span class="mi">2100</span>
+<span class="n">off</span> <span class="o">=</span> <span class="mi">2170</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;xtick&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;ytick&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="n">on</span><span class="p">:</span><span class="n">off</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="n">on</span><span class="p">:</span><span class="n">off</span><span class="p">],</span> <span class="n">linefmt</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">markerfmt</span><span class="o">=</span><span class="s1">&#39;ko&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$x[n]$&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time_vector</span><span class="p">[</span><span class="n">on</span><span class="p">:</span><span class="n">off</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="n">on</span><span class="p">:</span><span class="n">off</span><span class="p">],</span> <span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;$x(t)$&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;samples in discrete time&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;amplitude&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;discrete time signal: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/8f6f714588cf0469d1d3f4c93df30fa64bc534c7d940ca9b12d7724902d022b1.png" src="../../_images/8f6f714588cf0469d1d3f4c93df30fa64bc534c7d940ca9b12d7724902d022b1.png" />
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "ph"
+        },
+        kernelOptions: {
+            name: "ph",
+            path: "./contenidos/unidad1"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ph'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="clase1.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>Procesamiento básico de imágenes y audio</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="clase3.html"
+       title="siguiente página">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Representamos un sistema lineal e invariante en tiempo discreto (LTI)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-transformada-de-fourier-en-tiempo-discreto-dtft">2.1. La transformada de Fourier en tiempo discreto (DTFT)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-transformada-de-fourier-discreta-dft">2.2. La transformada de Fourier discreta (DFT)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-trasformada-rapida-de-fourier-fft">2.3. La trasformada rápida de Fourier (FFT)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#supongamos-una-senal-antes-de-pasar-por-un-convertidor-de-analogo-a-digital">2.4. Supongamos una señal antes de pasar por un convertidor de análogo a digital:</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por Victor Poblete
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

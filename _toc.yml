@@ -9,6 +9,7 @@ parts:
     - file: contenidos/unidad1/clase2
     - file: contenidos/unidad1/clase3
     - file: contenidos/unidad1/clase4
+    - file: contenidos/unidad1/clase4_experiments
     - file: contenidos/unidad1/clase5
   - caption: Revisión de features perceptuales y físicos para audio
     numbered: true

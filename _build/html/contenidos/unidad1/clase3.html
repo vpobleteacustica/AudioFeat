@@ -68,7 +68,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'contenidos/unidad1/clase3';</script>
     <link rel="index" title="Índice" href="../../genindex.html" />
     <link rel="search" title="Búsqueda" href="../../search.html" />
-    <link rel="next" title="5. Operación de Convolución de audio" href="clase4.html" />
+    <link rel="next" title="4. Operación de Convolución de audio" href="clase4.html" />
     <link rel="prev" title="2. La transformada continua de Fourier (FT)" href="clase2.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="es"/>
@@ -165,8 +165,8 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="clase1.html">1. Procesamiento básico de imágenes y audio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="clase2.html">2. La transformada continua de Fourier (FT)</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">3. Representamos un sistema lineal e invariante en tiempo discreto (LTI)</a></li>
-
-<li class="toctree-l1"><a class="reference internal" href="clase4.html">5. Operación de Convolución de audio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clase4.html">4. Operación de Convolución de audio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clase4_experiments.html">5. Desarrollo de la experiencia práctica de convolución con datos de audio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="clase5.html">6. Procesamiento básico de imágenes</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Revisión de features perceptuales y físicos para audio</span></p>
@@ -322,10 +322,8 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">3. Representamos un sistema lineal e invariante en tiempo discreto (LTI)</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#respuesta-impulso-de-un-sistema">4. Respuesta impulso de un sistema</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#respuesta-impulso-de-un-sistema">3.1. Respuesta impulso de un sistema</a></li>
 </ul>
-
             </nav>
         </div>
     </div>
@@ -433,9 +431,8 @@ x[n] \xrightarrow[]{T}y[n]
 <blockquote>
 <div><p>Esta representación, nos permite estimar una salida del sistema a través de una operación matemática llamada <span style="color:red"><strong>suma de convolución</strong></span>.</p>
 </div></blockquote>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="respuesta-impulso-de-un-sistema">
-<h1><span class="section-number">4. </span>Respuesta impulso de un sistema<a class="headerlink" href="#respuesta-impulso-de-un-sistema" title="Permalink to this heading">#</a></h1>
+<section id="respuesta-impulso-de-un-sistema">
+<h2><span class="section-number">3.1. </span>Respuesta impulso de un sistema<a class="headerlink" href="#respuesta-impulso-de-un-sistema" title="Permalink to this heading">#</a></h2>
 <blockquote>
 <div><p>Conceptualmente, la respuesta impulso del sistema es llamada <span class="math notranslate nohighlight">\(h[n]\)</span>. Corresponde a la salida del sistema cuando en la entrada hay un impulso unitario, también conocido como <span style="color:red"><strong>impulso de Dirac</strong></span> <span class="math notranslate nohighlight">\(\delta [n]\)</span>:</p>
 </div></blockquote>
@@ -518,6 +515,7 @@ $<span class="math notranslate nohighlight">\(
     </video></div></div>
 </div>
 </section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -564,7 +562,7 @@ $<span class="math notranslate nohighlight">\(
        title="siguiente página">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">siguiente</p>
-        <p class="prev-next-title"><span class="section-number">5. </span>Operación de Convolución de audio</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Operación de Convolución de audio</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -586,10 +584,8 @@ $<span class="math notranslate nohighlight">\(
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">3. Representamos un sistema lineal e invariante en tiempo discreto (LTI)</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#respuesta-impulso-de-un-sistema">4. Respuesta impulso de un sistema</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#respuesta-impulso-de-un-sistema">3.1. Respuesta impulso de un sistema</a></li>
 </ul>
-
   </nav></div>
 
 </div></div>

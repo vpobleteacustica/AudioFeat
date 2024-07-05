@@ -662,6 +662,33 @@ document.write(`
                 </audio>
               </div></div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">write_wav</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">sample_rate</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">         Write wav file</span>
+<span class="sd">         input:</span>
+<span class="sd">               fname: wav file path</span>
+<span class="sd">               src: frames of audio</span>
+<span class="sd">               sample_rate: An integer which is the sample rate of the audio</span>
+<span class="sd">         output:</span>
+<span class="sd">               None</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">torchaudio</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">sample_rate</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fname</span> <span class="o">=</span> <span class="s1">&#39;mixed.wav&#39;</span>
+<span class="n">src</span>   <span class="o">=</span> <span class="n">orig_mixed</span>
+
+<span class="n">write_wav</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">sample_rate</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 

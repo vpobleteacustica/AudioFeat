@@ -2,6 +2,10 @@
 
 ## Resumen
 
+> ¿Qué son las señales de audio?
+
+> Teorema de Nyquist - Shannon
+
 > ¿Cómo dotar a un computador de capacidades de detección (activa) similares a las de los humanos?
 
 > El `sonido` es el canal de comunicación más importante entre los `seres vivos`.
